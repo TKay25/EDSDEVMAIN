@@ -72,6 +72,8 @@ def db_overview(db_key):
 @login_required
 def invoice():
     if request.method == 'POST':
+        from jinja2 import Environment, FileSystemLoader
+        from weasyprint import HTML
         client = request.form['client']
         items = request.form.getlist('item')
         prices = request.form.getlist('price')
@@ -80,71 +82,25 @@ def invoice():
         vat = subtotal * 0.15
         total = subtotal + vat
 
-        buffer = BytesIO()
-        p = canvas.Canvas(buffer, pagesize=letter)
-        # Colors
-        dark_blue = (20/255, 30/255, 60/255)
-        grey = (230/255, 230/255, 230/255)
-        white = (1, 1, 1)
+        # Prepare data for template
+        invoice_items = list(zip(items, prices_float))
+        logo_path = os.path.join('static', 'images', 'eds logo blue.png')
 
-        # Background
-        p.setFillColorRGB(*grey)
-        p.rect(0, 0, 612, 792, fill=1, stroke=0)
+        # Render HTML using Jinja2
+        env = Environment(loader=FileSystemLoader(os.path.join(app.root_path, 'templates')))
+        template = env.get_template('invoice_pdf_template.html')
+        html_out = template.render(
+            client=client,
+            items=invoice_items,
+            subtotal=subtotal,
+            vat=vat,
+            total=total,
+            logo_path=logo_path
+        )
 
-        # Header bar
-        p.setFillColorRGB(*dark_blue)
-        p.rect(0, 740, 612, 60, fill=1, stroke=0)
-
-        # Logo
-        logo_path = os.path.join(app.root_path, 'static', 'images', 'eds logo blue.png')
-        if os.path.exists(logo_path):
-            p.drawImage(logo_path, 40, 750, width=80, height=40, preserveAspectRatio=True, mask='auto')
-
-        # Title
-        p.setFillColorRGB(*white)
-        p.setFont("Helvetica-Bold", 22)
-        p.drawString(150, 770, f"INVOICE")
-        p.setFont("Helvetica", 14)
-        p.drawString(150, 750, f"Client: {client}")
-
-        # Table header
-        p.setFillColorRGB(*dark_blue)
-        p.setFont("Helvetica-Bold", 13)
-        y = 700
-        p.drawString(100, y, "Item")
-        p.drawString(350, y, "Price ($)")
-        p.setStrokeColorRGB(*dark_blue)
-        p.line(90, y-5, 500, y-5)
-
-        # Table rows
-        p.setFont("Helvetica", 12)
-        p.setFillColorRGB(0, 0, 0)
-        y -= 30
-        for item, price in zip(items, prices_float):
-            p.drawString(100, y, f"{item}")
-            p.drawString(350, y, f"${price:.2f}")
-            y -= 22
-
-        # Totals box
-        y -= 10
-        p.setFillColorRGB(*dark_blue)
-        p.rect(320, y-60, 180, 60, fill=1, stroke=0)
-        p.setFillColorRGB(*white)
-        p.setFont("Helvetica-Bold", 12)
-        p.drawString(330, y-20, f"Subtotal: ${subtotal:.2f}")
-        p.drawString(330, y-35, f"VAT (15%): ${vat:.2f}")
-        p.drawString(330, y-50, f"Total: ${total:.2f}")
-
-        # Footer
-        p.setFillColorRGB(*dark_blue)
-        p.rect(0, 0, 612, 40, fill=1, stroke=0)
-        p.setFillColorRGB(*white)
-        p.setFont("Helvetica", 10)
-        p.drawString(40, 20, "Thank you for your business!")
-
-        p.save()
-        buffer.seek(0)
-        return send_file(buffer, as_attachment=True, download_name='invoice.pdf', mimetype='application/pdf')
+        # Generate PDF with WeasyPrint
+        pdf = HTML(string=html_out, base_url=app.root_path).write_pdf()
+        return send_file(BytesIO(pdf), as_attachment=True, download_name='invoice.pdf', mimetype='application/pdf')
     return render_template('invoice.html')
 
 @app.route('/quotation/excel', methods=['POST'])

@@ -4,3 +4,7 @@ psycopg2-binary
 reportlab
 gunicorn
 pandas
+weasyprint
+pytest
+jinja2
+flask-wtf

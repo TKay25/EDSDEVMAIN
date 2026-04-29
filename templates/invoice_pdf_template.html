@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #e6e6e6; margin: 0; }
+        .invoice-box {
+            background: #fff;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 40px 50px 30px 50px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(20,30,60,0.12);
+        }
+        .header {
+            display: flex; align-items: center; justify-content: space-between;
+            border-bottom: 4px solid #14203c; padding-bottom: 18px; margin-bottom: 32px;
+        }
+        .logo { height: 60px; }
+        .title { color: #14203c; font-size: 2.5rem; font-weight: 700; }
+        .client { font-size: 1.2rem; color: #333; margin-bottom: 24px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+        th, td { padding: 14px 10px; text-align: left; }
+        th { background: #14203c; color: #fff; font-size: 1.1rem; }
+        tr:nth-child(even) { background: #f4f4f4; }
+        .totals {
+            float: right; width: 320px; background: #14203c; color: #fff;
+            border-radius: 10px; padding: 18px 24px; font-size: 1.1rem;
+        }
+        .totals-row { display: flex; justify-content: space-between; margin-bottom: 8px; }
+        .totals-row:last-child { font-size: 1.2rem; font-weight: bold; }
+        .footer { text-align: center; color: #14203c; margin-top: 48px; font-size: 1rem; }
+    </style>
+</head>
+<body>
+<div class="invoice-box">
+    <div class="header">
+        <img src="{{ logo_path }}" class="logo" alt="Logo">
+        <div class="title">INVOICE</div>
+    </div>
+    <div class="client">Client: <strong>{{ client }}</strong></div>
+    <table>
+        <thead>
+            <tr><th>Item</th><th>Price ($)</th></tr>
+        </thead>
+        <tbody>
+        {% for item, price in items %}
+            <tr><td>{{ item }}</td><td>{{ '%.2f'|format(price) }}</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="totals">
+        <div class="totals-row"><span>Subtotal:</span><span>${{ '%.2f'|format(subtotal) }}</span></div>
+        <div class="totals-row"><span>VAT (15%):</span><span>${{ '%.2f'|format(vat) }}</span></div>
+        <div class="totals-row"><span>Total:</span><span>${{ '%.2f'|format(total) }}</span></div>
+    </div>
+    <div style="clear:both"></div>
+    <div class="footer">Thank you for your business!</div>
+</div>
+</body>
+</html>
