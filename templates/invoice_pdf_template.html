@@ -15,9 +15,6 @@
         body {
             background: #e2e8f0;
             font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
             padding: 1.2rem;
         }
@@ -25,53 +22,38 @@
         /* MAIN INVOICE CARD - EXACT A5 DIMENSIONS */
         .invoice-a5 {
             width: 100%;
-            max-width: 21cm;  /* A5 width */
-            min-height: 14.8cm; /* A5 height */
+            max-width: 21cm;
+            min-height: 14.8cm;
             background: #ffffff;
-            border-radius: 24px;
-            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
             overflow: hidden;
-            transition: all 0.2s;
-            display: flex;
-            flex-direction: column;
         }
 
         /* flexible inner content - uses full height gracefully */
         .invoice-inner {
             padding: 1.6rem 2rem 1.8rem 2rem;
-            flex: 1;
         }
 
         /* HEADER MODERN COMPACT */
         .invoice-header {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
             margin-bottom: 1.2rem;
             padding-bottom: 1rem;
             border-bottom: 2px solid #eef2f8;
         }
 
         .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            margin-bottom: 0.5rem;
         }
 
         .logo {
             height: 48px;
             width: auto;
-            filter: drop-shadow(0 1px 3px rgba(0,0,0,0.05));
         }
 
         .brand-name {
             font-size: 1.2rem;
             font-weight: 700;
-            background: linear-gradient(135deg, #1A2C3E, #2C4C6E);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
+            color: #1A2C3E;
             letter-spacing: -0.2px;
         }
 
@@ -79,7 +61,7 @@
             background: #1e2f3f;
             color: white;
             padding: 0.3rem 1rem;
-            border-radius: 80px;
+            border-radius: 8px;
             font-weight: 700;
             font-size: 1.2rem;
             letter-spacing: 0.5px;
@@ -87,20 +69,15 @@
 
         /* INFO GRID - tighter spacing for A5 */
         .info-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 0.8rem;
             background: #f8fafd;
             padding: 1rem 1.3rem;
-            border-radius: 22px;
+            border-radius: 12px;
             margin-bottom: 1.5rem;
             border: 1px solid #edf2f7;
         }
 
         .info-card {
-            flex: 1;
-            min-width: 130px;
+            margin-bottom: 0.5rem;
         }
 
         .info-label {
@@ -127,9 +104,8 @@
 
         /* TABLE STYLES - A5 friendly font */
         .items-table-wrapper {
-            overflow-x: auto;
             margin: 0.8rem 0 1.2rem;
-            border-radius: 20px;
+            border-radius: 10px;
             border: 1px solid #edf2f7;
             background: white;
         }
@@ -163,14 +139,13 @@
 
         /* TOTALS PANEL - compact but stylish */
         .totals-modern {
-            background: linear-gradient(115deg, #0f212e 0%, #1b3547 100%);
-            border-radius: 24px;
+            background: #1b3547;
+            border-radius: 12px;
             padding: 1rem 1.5rem;
             width: 100%;
             max-width: 280px;
             margin-left: auto;
             margin-bottom: 1.3rem;
-            box-shadow: 0 8px 14px -8px rgba(0,0,0,0.15);
         }
 
         .totals-row {
@@ -193,17 +168,12 @@
 
         /* ACTION CARDS (payment + due) - side by side on A5 */
         .action-cards {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
             margin: 1rem 0 0.8rem;
         }
 
         .card {
-            flex: 1;
-            border-radius: 20px;
+            border-radius: 10px;
             padding: 1rem 1.2rem;
-            transition: 0.1s;
         }
 
         .payment-card {
