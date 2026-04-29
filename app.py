@@ -89,8 +89,8 @@ def invoice():
         logo_path = os.path.join('static', 'images', 'eds logo blue.png')
 
         # Invoice metadata
-        invoice_date = datetime.now().strftime('%Y-%m-%d')
-        due_date = (datetime.now() + timedelta(days=7)).strftime('%Y-%m-%d')
+        invoice_date = datetime.now().strftime('%d %B %Y')
+        due_date = (datetime.now() + timedelta(days=7)).strftime('%d %B %Y')
         invoice_number = f"INV{datetime.now().strftime('%Y%m%d')}{random.randint(100,999)}"
 
         # Render HTML using Jinja2
