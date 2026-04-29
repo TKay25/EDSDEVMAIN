@@ -83,8 +83,15 @@ def invoice():
         total = subtotal + vat
 
         # Prepare data for template
+        from datetime import datetime, timedelta
+        import random
         invoice_items = list(zip(items, prices_float))
         logo_path = os.path.join('static', 'images', 'eds logo blue.png')
+
+        # Invoice metadata
+        invoice_date = datetime.now().strftime('%Y-%m-%d')
+        due_date = (datetime.now() + timedelta(days=7)).strftime('%Y-%m-%d')
+        invoice_number = f"INV{datetime.now().strftime('%Y%m%d')}{random.randint(100,999)}"
 
         # Render HTML using Jinja2
         env = Environment(loader=FileSystemLoader(os.path.join(app.root_path, 'templates')))
@@ -95,7 +102,10 @@ def invoice():
             subtotal=subtotal,
             vat=vat,
             total=total,
-            logo_path=logo_path
+            logo_path=logo_path,
+            invoice_date=invoice_date,
+            due_date=due_date,
+            invoice_number=invoice_number
         )
 
         # Generate PDF with WeasyPrint

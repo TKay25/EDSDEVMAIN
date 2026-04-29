@@ -30,6 +30,35 @@
         }
         .totals-row { display: flex; justify-content: space-between; margin-bottom: 8px; }
         .totals-row:last-child { font-size: 1.2rem; font-weight: bold; }
+        .details-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .section-title {
+            color: #14203c;
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-top: 32px;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+        .payment-box {
+            background: #f4f4f4;
+            border-radius: 10px;
+            padding: 18px 24px;
+            margin-top: 10px;
+            font-size: 1.08rem;
+        }
+        .due-box {
+            background: #fffbe6;
+            border: 1.5px solid #ffe066;
+            border-radius: 10px;
+            padding: 14px 22px;
+            margin-top: 10px;
+            font-size: 1.08rem;
+            color: #856404;
+        }
         .footer { text-align: center; color: #14203c; margin-top: 48px; font-size: 1rem; }
     </style>
 </head>
@@ -39,7 +68,14 @@
         <img src="{{ logo_path }}" class="logo" alt="Logo">
         <div class="title">INVOICE</div>
     </div>
-    <div class="client">Client: <strong>{{ client }}</strong></div>
+    <div class="details-row">
+        <div>Client: <strong>{{ client }}</strong></div>
+        <div>Invoice Date: <strong>{{ invoice_date }}</strong></div>
+    </div>
+    <div class="details-row">
+        <div>Invoice #: <strong>{{ invoice_number }}</strong></div>
+        <div>Due Date: <strong>{{ due_date }}</strong></div>
+    </div>
     <table>
         <thead>
             <tr><th>Item</th><th>Price ($)</th></tr>
@@ -56,6 +92,20 @@
         <div class="totals-row"><span>Total:</span><span>${{ '%.2f'|format(total) }}</span></div>
     </div>
     <div style="clear:both"></div>
+
+    <div class="section-title">Payment Details</div>
+    <div class="payment-box">
+        <strong>Payment Method:</strong> Cash or Ecocash<br>
+        <strong>Ecocash Number:</strong> 0774822568<br>
+        <strong>Account Name:</strong> CBZ Bank Limited (or your business name)<br>
+        <strong>Reference:</strong> Please use Invoice Number when making payment.
+    </div>
+
+    <div class="section-title">Due Date</div>
+    <div class="due-box">
+        Payment is due by <strong>{{ due_date }}</strong>.<br>
+        Late payments may incur a penalty as per our terms.
+    </div>
     <div class="footer">Thank you for your business!</div>
 </div>
 </body>
