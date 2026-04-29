@@ -78,9 +78,8 @@ def invoice():
         items = request.form.getlist('item')
         prices = request.form.getlist('price')
         prices_float = [float(p) for p in prices]
-        subtotal = sum(prices_float)
-        vat = subtotal * 0.15
-        total = subtotal + vat
+        total = sum(prices_float)
+
 
         from datetime import datetime
         import random
@@ -99,8 +98,6 @@ def invoice():
         html_out = template.render(
             client=client,
             items=invoice_items,
-            subtotal=subtotal,
-            vat=vat,
             total=total,
             logo_path=logo_path,
             invoice_date=invoice_date,
