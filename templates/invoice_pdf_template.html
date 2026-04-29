@@ -2,111 +2,422 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Invoice</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Invoice | Elegant Billing</title>
     <style>
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: #e6e6e6; margin: 0; }
-        .invoice-box {
-            background: #fff;
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 40px 50px 30px 50px;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(20,30,60,0.12);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .header {
-            display: flex; align-items: center; justify-content: space-between;
-            border-bottom: 4px solid #14203c; padding-bottom: 18px; margin-bottom: 32px;
+
+        body {
+            background: linear-gradient(145deg, #e9eef3 0%, #dce2ea 100%);
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+            padding: 2rem 1rem;
+            min-height: 100vh;
         }
-        .logo { height: 60px; }
-        .title { color: #14203c; font-size: 2.5rem; font-weight: 700; }
-        .client { font-size: 1.2rem; color: #333; margin-bottom: 24px; }
-        table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
-        th, td { padding: 14px 10px; text-align: left; }
-        th { background: #14203c; color: #fff; font-size: 1.1rem; }
-        tr:nth-child(even) { background: #f4f4f4; }
-        .totals {
-            float: right; width: 320px; background: #14203c; color: #fff;
-            border-radius: 10px; padding: 18px 24px; font-size: 1.1rem;
+
+        /* Modern card container */
+        .invoice-container {
+            max-width: 980px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 32px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 4px 8px -4px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: all 0.2s ease;
         }
-        .totals-row { display: flex; justify-content: space-between; margin-bottom: 8px; }
-        .totals-row:last-child { font-size: 1.2rem; font-weight: bold; }
-        .details-row {
+
+        /* inner content */
+        .invoice-inner {
+            padding: 2.5rem 3rem 2.8rem 3rem;
+        }
+
+        @media (max-width: 680px) {
+            .invoice-inner {
+                padding: 1.5rem 1.5rem 2rem;
+            }
+        }
+
+        /* modern header with accent */
+        .invoice-header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid #eef2f8;
+            position: relative;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            height: 58px;
+            width: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));
+            transition: transform 0.2s;
+        }
+
+        .brand-name {
+            font-size: 1.35rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #1A2C3E, #2C4C6E);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.2px;
+        }
+
+        .title-badge {
+            background: #1e2f3f;
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.03);
+        }
+
+        /* info cards (client + dates) */
+        .info-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 1.2rem;
+            background: #f8fafd;
+            padding: 1.5rem 1.8rem;
+            border-radius: 28px;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(0,0,0,0.02);
+        }
+
+        .info-card {
+            flex: 1;
+            min-width: 170px;
+        }
+
+        .info-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-weight: 700;
+            color: #5b6f82;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #122231;
+            word-break: break-word;
+        }
+
+        .info-sub {
+            font-size: 0.85rem;
+            color: #3e5a6f;
+            margin-top: 0.2rem;
+        }
+
+        /* table modern */
+        .items-table-wrapper {
+            overflow-x: auto;
+            margin: 1.8rem 0 2rem;
+            border-radius: 24px;
+            border: 1px solid #edf2f7;
+            background: white;
+        }
+
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        .invoice-table th {
+            background: #f1f5f9;
+            color: #1a3c4f;
+            font-weight: 700;
+            padding: 1.1rem 1.2rem;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .invoice-table td {
+            padding: 1rem 1.2rem;
+            border-bottom: 1px solid #eff3f8;
+            color: #1e2f3c;
+            font-weight: 500;
+        }
+
+        .invoice-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .invoice-table tr:hover td {
+            background-color: #fef9e6;
+            transition: 0.1s;
+        }
+
+        /* totals panel - elegant card */
+        .totals-modern {
+            background: linear-gradient(115deg, #0f212e 0%, #1b3547 100%);
+            border-radius: 28px;
+            padding: 1.6rem 2rem;
+            width: 100%;
+            max-width: 360px;
+            margin-left: auto;
+            margin-bottom: 2rem;
+            box-shadow: 0 12px 20px -12px rgba(0,0,0,0.2);
+        }
+
+        .totals-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 10px;
+            margin-bottom: 0.7rem;
+            color: #eef4ff;
+            font-weight: 500;
+            font-size: 1rem;
         }
-        .section-title {
-            color: #14203c;
-            font-size: 1.15rem;
+
+        .totals-row.final {
+            margin-top: 0.8rem;
+            padding-top: 0.8rem;
+            border-top: 2px dashed rgba(255,255,255,0.2);
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: #ffdfa0;
+        }
+
+        .totals-row span:first-child {
+            opacity: 0.85;
+        }
+
+        /* double card layout: payment + due */
+        .action-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 2rem 0 1rem;
+        }
+
+        .card {
+            flex: 1;
+            border-radius: 26px;
+            padding: 1.3rem 1.5rem;
+            transition: transform 0.15s ease, box-shadow 0.2s;
+        }
+
+        .payment-card {
+            background: #fefdf8;
+            border: 1px solid #f0e9cf;
+            box-shadow: 0 6px 12px -6px rgba(0,0,0,0.04);
+        }
+
+        .due-card {
+            background: #fff9ef;
+            border-left: 6px solid #f5b042;
+            box-shadow: 0 6px 12px -6px rgba(0,0,0,0.04);
+        }
+
+        .card-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1.4px;
+            font-weight: 700;
+            color: #8b6f3c;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .payment-details p {
+            margin: 0.5rem 0;
+            font-size: 0.95rem;
+            line-height: 1.45;
+            color: #2c3e2f;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 6px;
+        }
+
+        .payment-details strong {
+            font-weight: 700;
+            color: #1f3e48;
+            min-width: 120px;
+        }
+
+        .due-text {
+            font-size: 1.05rem;
             font-weight: 600;
-            margin-top: 32px;
-            margin-bottom: 10px;
-            letter-spacing: 0.5px;
+            color: #b46519;
+            margin: 0.5rem 0 0.2rem;
         }
-        .payment-box {
-            background: #f4f4f4;
-            border-radius: 10px;
-            padding: 18px 24px;
-            margin-top: 10px;
-            font-size: 1.08rem;
+
+        .penalty-note {
+            font-size: 0.8rem;
+            color: #a57c46;
+            margin-top: 0.5rem;
         }
-        .due-box {
-            background: #fffbe6;
-            border: 1.5px solid #ffe066;
-            border-radius: 10px;
-            padding: 14px 22px;
-            margin-top: 10px;
-            font-size: 1.08rem;
-            color: #856404;
+
+        /* footer */
+        .modern-footer {
+            text-align: center;
+            margin-top: 2.8rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid #e9edf2;
+            font-size: 0.8rem;
+            color: #5b6f84;
+            font-weight: 500;
         }
-        .footer { text-align: center; color: #14203c; margin-top: 48px; font-size: 1rem; }
+
+        /* buttons (just for print style, no JS needed, but style) */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .invoice-container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+            .totals-modern {
+                background: #1b2f3c;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .payment-card, .due-card {
+                break-inside: avoid;
+            }
+        }
+
+        /* responsive micro */
+        @media (max-width: 680px) {
+            .totals-modern {
+                max-width: 100%;
+            }
+            .invoice-table th, .invoice-table td {
+                padding: 0.8rem;
+            }
+        }
+        /* subtle extras */
+        .badge-currency {
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
-<div class="invoice-box">
-    <div class="header">
-        <img src="{{ logo_path }}" class="logo" alt="Logo">
-        <div class="title">INVOICE</div>
-    </div>
-    <div class="details-row">
-        <div>Client: <strong>{{ client }}</strong></div>
-        <div>Invoice Date: <strong>{{ invoice_date }}</strong></div>
-    </div>
-    <div class="details-row">
-        <div>Invoice #: <strong>{{ invoice_number }}</strong></div>
-        <div>Due Date: <strong>{{ due_date }}</strong></div>
-    </div>
-    <table>
-        <thead>
-            <tr><th>Item</th><th>Price ($)</th></tr>
-        </thead>
-        <tbody>
-        {% for item, price in items %}
-            <tr><td>{{ item }}</td><td>{{ '%.2f'|format(price) }}</td></tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <div class="totals">
-        <div class="totals-row"><span>Subtotal:</span><span>${{ '%.2f'|format(subtotal) }}</span></div>
-        <div class="totals-row"><span>VAT (15%):</span><span>${{ '%.2f'|format(vat) }}</span></div>
-        <div class="totals-row"><span>Total:</span><span>${{ '%.2f'|format(total) }}</span></div>
-    </div>
-    <div style="clear:both"></div>
+<div class="invoice-container">
+    <div class="invoice-inner">
+        <!-- header with dynamic logo and stylish title -->
+        <div class="invoice-header">
+            <div class="logo-area">
+                <!-- dynamic logo path, with fallback elegant placeholder text if missing -->
+                <img src="{{ logo_path }}" class="logo" alt="Company Logo" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2080%2080%22%3E%3Ccircle%20cx%3D%2240%22%20cy%3D%2240%22%20r%3D%2236%22%20fill%3D%22%231A2C3E%22%2F%3E%3Ctext%20x%3D%2240%22%20y%3D%2255%22%20font-size%3D%2232%22%20text-anchor%3D%22middle%22%20fill%3D%22%23ffffff%22%3E%26%23x24%3B%3C%2Ftext%3E%3C%2Fsvg%3E';">
+                <span class="brand-name">ELEVATE</span>
+            </div>
+            <div class="title-badge">INVOICE</div>
+        </div>
 
-    <div class="section-title">Payment Details</div>
-    <div class="payment-box">
-        <strong>Payment Method:</strong> Cash or Ecocash<br>
-        <strong>Ecocash Number:</strong> 0774822568<br>
-        <strong>Account Name:</strong> CBZ Bank Limited (or your business name)<br>
-        <strong>Reference:</strong> Please use Invoice Number when making payment.
-    </div>
+        <!-- client + dates in modern card group -->
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="info-label">BILL TO</div>
+                <div class="info-value">{{ client }}</div>
+                <div class="info-sub">Client reference • #{{ invoice_number }}</div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">INVOICE DATE</div>
+                <div class="info-value">{{ invoice_date }}</div>
+                <div class="info-sub">Issued</div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">DUE DATE</div>
+                <div class="info-value">{{ due_date }}</div>
+                <div class="info-sub">Payment deadline</div>
+            </div>
+        </div>
 
-    <div class="section-title">Due Date</div>
-    <div class="due-box">
-        Payment is due by <strong>{{ due_date }}</strong>.<br>
-        Late payments may incur a penalty as per our terms.
+        <!-- items table - clean & modern -->
+        <div class="items-table-wrapper">
+            <table class="invoice-table">
+                <thead>
+                    <tr>
+                        <th>Item Description</th>
+                        <th style="text-align: right;">Unit Price ($)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for item, price in items %}
+                    <tr>
+                        <td style="font-weight: 500;">{{ item }}</td>
+                        <td style="text-align: right; font-weight: 600;">${{ '%.2f'|format(price) }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- sophisticated totals panel on the right -->
+        <div class="totals-modern">
+            <div class="totals-row">
+                <span>Subtotal</span>
+                <span>${{ '%.2f'|format(subtotal) }}</span>
+            </div>
+            <div class="totals-row">
+                <span>VAT (15%)</span>
+                <span>${{ '%.2f'|format(vat) }}</span>
+            </div>
+            <div class="totals-row final">
+                <span>Total Due</span>
+                <span>${{ '%.2f'|format(total) }}</span>
+            </div>
+        </div>
+
+        <!-- payment & due details as separate modern cards -->
+        <div class="action-cards">
+            <div class="card payment-card">
+                <div class="card-title">
+                    <span>💳 PAYMENT INFO</span>
+                </div>
+                <div class="payment-details">
+                    <p><strong>Payment Method:</strong> Cash / Ecocash/ Bank Transfer</p>
+                    <p><strong>Ecocash Number:</strong> 0774 822 568</p>
+                    <p><strong>Bank / Account:</strong> CBZ Bank Limited</p>
+                    <p><strong>Account Name:</strong> Takudzwa Zvakasikwa</p>
+                    <p><strong>Account Number:</strong> 02126976120029</p>
+                    <p><strong>Reference:</strong> <span style="background:#f1ede4; padding:2px 8px; border-radius:40px;">Invoice #{{ invoice_number }}</span></p>
+                    <p style="margin-top: 0.6rem;"><span style="opacity:0.7;">📌</span> Use invoice number as payment reference if making Electronic Payment</p>
+                </div>
+            </div>
+            <div class="card due-card">
+                <div class="card-title">
+                    <span>⏱️ DUE DATE ALERT</span>
+                </div>
+                <div class="due-text">Payment is due by <strong>{{ due_date }}</strong></div>
+            </div>
+        </div>
+
+        <!-- thank you footer with modern touch -->
+        <div class="modern-footer">
+            ✦ Thank you for choosing us – we appreciate your business ✦<br>
+            <span style="font-size: 0.7rem;">This is a system generated invoice | valid without signature</span>
+        </div>
     </div>
-    <div class="footer">Thank you for your business!</div>
 </div>
+
+<!-- optional micro script to handle placeholder logo gracefully, already handled by onerror -->
 </body>
 </html>
