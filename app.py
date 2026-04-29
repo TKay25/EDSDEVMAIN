@@ -40,21 +40,12 @@ def login_required(f):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        user = AdminUser.query.filter_by(username=username).first()
-        # If there are no users in the database, allow any login
-        if AdminUser.query.count() == 0:
-            session['user_id'] = 1
-            session['username'] = username
-            session['role'] = 'admin'
-            return redirect(url_for('index'))
-        if user and check_password_hash(user.password_hash, password):
-            session['user_id'] = user.id
-            session['username'] = user.username
-            session['role'] = user.role
-            return redirect(url_for('index'))
-        flash('Invalid credentials', 'danger')
+        # Bypass all checks and allow any login
+        username = request.form.get('username', 'demo')
+        session['user_id'] = 1
+        session['username'] = username
+        session['role'] = 'admin'
+        return redirect(url_for('index'))
     return render_template('login.html')
 
 @app.route('/logout')
