@@ -43,6 +43,12 @@ def login():
         username = request.form['username']
         password = request.form['password']
         user = AdminUser.query.filter_by(username=username).first()
+        # If there are no users in the database, allow any login
+        if AdminUser.query.count() == 0:
+            session['user_id'] = 1
+            session['username'] = username
+            session['role'] = 'admin'
+            return redirect(url_for('index'))
         if user and check_password_hash(user.password_hash, password):
             session['user_id'] = user.id
             session['username'] = user.username
