@@ -82,18 +82,18 @@ def invoice():
         vat = subtotal * 0.15
         total = subtotal + vat
 
-        # Prepare data for template
-        from datetime import datetime, timedelta
+        from datetime import datetime
         import random
         invoice_items = list(zip(items, prices_float))
         logo_path = os.path.join('static', 'images', 'eds logo blue.png')
 
-        # Invoice metadata
-        invoice_date = datetime.now().strftime('%d %B %Y')
-        due_date = (datetime.now() + timedelta(days=7)).strftime('%d %B %Y')
+        # Get user-provided dates and format as '24 February 2026'
+        invoice_date_raw = request.form.get('invoice_date')
+        due_date_raw = request.form.get('due_date')
+        invoice_date = datetime.strptime(invoice_date_raw, '%Y-%m-%d').strftime('%d %B %Y') if invoice_date_raw else datetime.now().strftime('%d %B %Y')
+        due_date = datetime.strptime(due_date_raw, '%Y-%m-%d').strftime('%d %B %Y') if due_date_raw else (datetime.now() + timedelta(days=7)).strftime('%d %B %Y')
         invoice_number = f"INV{datetime.now().strftime('%Y%m%d')}{random.randint(100,999)}"
 
-        # Render HTML using Jinja2
         env = Environment(loader=FileSystemLoader(os.path.join(app.root_path, 'templates')))
         template = env.get_template('invoice_pdf_template.html')
         html_out = template.render(
@@ -108,7 +108,6 @@ def invoice():
             invoice_number=invoice_number
         )
 
-        # Generate PDF with WeasyPrint
         pdf = HTML(string=html_out, base_url=app.root_path).write_pdf()
         return send_file(BytesIO(pdf), as_attachment=True, download_name='invoice.pdf', mimetype='application/pdf')
     return render_template('invoice.html')

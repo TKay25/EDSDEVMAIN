@@ -52,6 +52,16 @@
             <label for="client" class="form-label">Client Name</label>
             <input type="text" class="form-control" id="client" name="client" required>
         </div>
+        <div class="row mb-3">
+            <div class="col">
+                <label for="invoice_date" class="form-label">Issue Date</label>
+                <input type="date" class="form-control" id="invoice_date" name="invoice_date" required>
+            </div>
+            <div class="col">
+                <label for="due_date" class="form-label">Due Date</label>
+                <input type="date" class="form-control" id="due_date" name="due_date" required>
+            </div>
+        </div>
         <table class="table invoice-table" id="items">
             <thead><tr><th>Item</th><th>Price</th><th></th></tr></thead>
             <tbody>
