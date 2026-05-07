@@ -75,15 +75,22 @@ def invoice():
         from jinja2 import Environment, FileSystemLoader
         from weasyprint import HTML
         client = request.form['client']
+        invoice_title = request.form.get('invoice_title', 'MONTHLY INVOICE').strip().upper()
         items = request.form.getlist('item')
         prices = request.form.getlist('price')
-        prices_float = [float(p) for p in prices]
-        total = sum(prices_float)
-
+        row_types = request.form.getlist('row_type')
 
         from datetime import datetime
         import random
-        invoice_items = list(zip(items, prices_float))
+        invoice_items = []
+        total = 0.0
+        for rtype, item, price in zip(row_types, items, prices):
+            if rtype == 'section':
+                invoice_items.append(('section', item, 0.0))
+            else:
+                p = float(price) if price else 0.0
+                total += p
+                invoice_items.append(('item', item, p))
         logo_path = os.path.join('static', 'images', 'eds logo blue.png')
 
         # Get user-provided dates and format as '24 February 2026'
@@ -97,6 +104,7 @@ def invoice():
         template = env.get_template('invoice_pdf_template.html')
         html_out = template.render(
             client=client,
+            invoice_title=invoice_title,
             items=invoice_items,
             total=total,
             logo_path=logo_path,

@@ -33,12 +33,21 @@
         }
         .btn-primary { background: #14203c; border: none; }
         .btn-primary:hover { background: #1a2a4d; }
+        .section-row td { background: #e8ecf4; font-weight: 700; color: #14203c; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .btn-section { background: #3a5a8c; border: none; color: #fff; }
+        .btn-section:hover { background: #2e4a72; color: #fff; }
     </style>
     <script>
         function addRow() {
             const table = document.getElementById('items');
             const row = table.insertRow();
-            row.innerHTML = `<td><input name="item" class="form-control" required></td><td><input name="price" type="number" step="0.01" class="form-control" required></td><td><button type="button" class="btn btn-danger" onclick="this.closest('tr').remove()">Remove</button></td>`;
+            row.innerHTML = `<input type="hidden" name="row_type" value="item"><td><input name="item" class="form-control" required></td><td><input name="price" type="number" step="0.01" class="form-control" required></td><td><button type="button" class="btn btn-danger btn-sm" onclick="this.closest('tr').remove()">Remove</button></td>`;
+        }
+        function addSection() {
+            const table = document.getElementById('items');
+            const row = table.insertRow();
+            row.className = 'section-row';
+            row.innerHTML = `<input type="hidden" name="row_type" value="section"><input type="hidden" name="price" value="0"><td colspan="2"><input name="item" class="form-control form-control-sm" placeholder="Section heading (e.g. Hosting Services)" required></td><td><button type="button" class="btn btn-danger btn-sm" onclick="this.closest('tr').remove()">Remove</button></td>`;
         }
     </script>
 </head>
@@ -48,6 +57,10 @@
         <div class="invoice-title">Generate Invoice</div>
     </div>
     <form method="post">
+        <div class="mb-3">
+            <label for="invoice_title" class="form-label">Invoice Title</label>
+            <input type="text" class="form-control" id="invoice_title" name="invoice_title" placeholder="e.g. MONTHLY INVOICE" value="MONTHLY INVOICE" required>
+        </div>
         <div class="mb-3">
             <label for="client" class="form-label">Client Name</label>
             <input type="text" class="form-control" id="client" name="client" required>
@@ -66,13 +79,17 @@
             <thead><tr><th>Item</th><th>Price</th><th></th></tr></thead>
             <tbody>
                 <tr>
+                    <input type="hidden" name="row_type" value="item">
                     <td><input name="item" class="form-control" required></td>
                     <td><input name="price" type="number" step="0.01" class="form-control" required></td>
                     <td></td>
                 </tr>
             </tbody>
         </table>
-        <button type="button" class="btn btn-secondary" onclick="addRow()">Add Item</button>
+        <div class="d-flex gap-2 mb-3">
+            <button type="button" class="btn btn-secondary btn-sm" onclick="addRow()">+ Add Item</button>
+            <button type="button" class="btn btn-section btn-sm" onclick="addSection()">+ Add Section</button>
+        </div>
         <button type="submit" class="btn btn-primary">Generate Invoice PDF</button>
         <a href="{{ url_for('index') }}" class="btn btn-secondary">Back</a>
     </form>
