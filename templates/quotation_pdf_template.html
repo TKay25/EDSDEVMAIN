@@ -53,9 +53,8 @@
             letter-spacing: -0.2px;
         }
 
-        /* Quotation badge uses a green accent to distinguish from invoice */
         .title-badge {
-            background: #1a4731;
+            background: #1e2f3f;
             color: white;
             padding: 0.15rem 0.7rem;
             border-radius: 8px;
@@ -133,7 +132,7 @@
         }
 
         .totals-modern {
-            background: #1a4731;
+            background: #1b3547;
             border-radius: 8px;
             padding: 0.5rem 0.7rem;
             width: 100%;
@@ -157,7 +156,7 @@
             border-top: 1px dashed rgba(255,255,255,0.2);
             font-weight: 800;
             font-size: 0.85rem;
-            color: #a8f0c6;
+            color: #ffdfa0;
         }
 
         .action-cards {
@@ -175,8 +174,8 @@
         }
 
         .terms-card {
-            background: #f4fdf7;
-            border-left: 5px solid #2e9e5f;
+            background: #fff9ef;
+            border-left: 5px solid #f5b042;
         }
 
         .card-title {
@@ -184,7 +183,7 @@
             text-transform: uppercase;
             letter-spacing: 1.2px;
             font-weight: 800;
-            color: #1a5c38;
+            color: #8b6f3c;
             margin-bottom: 0.2rem;
             display: flex;
             align-items: center;
@@ -212,13 +211,13 @@
         .validity-text {
             font-size: 0.7rem;
             font-weight: 700;
-            color: #1a6b40;
+            color: #b46519;
             margin: 0.1rem 0 0;
         }
 
         .terms-note {
             font-size: 0.55rem;
-            color: #2e6e47;
+            color: #a57c46;
             margin-top: 0.1rem;
         }
 
@@ -251,7 +250,7 @@
                 padding: 0.4cm 0.5cm 0.5cm 0.5cm;
             }
             .totals-modern {
-                background: #1a4731;
+                background: #1b2f3c;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
@@ -277,7 +276,7 @@
         }
 
         .ref-highlight {
-            background: #dff5ea;
+            background: #f1ede4;
             padding: 1px 5px;
             border-radius: 30px;
             font-family: monospace;
@@ -329,8 +328,8 @@
                 <tbody>
                 {% for row_type, item, price in items %}
                     {% if row_type == 'section' %}
-                    <tr style="background: #eaf4ef;">
-                        <td colspan="2" style="font-weight: 800; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.8px; color: #1a4731; padding: 0.25rem 0.5rem;">{{ item }}</td>
+                    <tr style="background: #eef2f8;">
+                        <td colspan="2" style="font-weight: 800; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.8px; color: #1a3c4f; padding: 0.25rem 0.5rem;">{{ item }}</td>
                     </tr>
                     {% else %}
                     <tr>
@@ -354,7 +353,7 @@
         <!-- PAYMENT INFO + TERMS CARDS -->
         <div class="action-cards">
             <div class="card payment-card">
-                <div class="card-title" style="color: #8b6f3c;">
+                <div class="card-title">
                     <span>💳 PAYMENT INFO</span>
                 </div>
                 <div class="payment-details">
