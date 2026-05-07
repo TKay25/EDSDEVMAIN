@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Quotation | A5 Ready</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #e2e8f0;
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+            min-height: 100vh;
+            padding: 0.3rem;
+        }
+
+        .invoice-a5 {
+            width: 100%;
+            max-width: 21cm;
+            min-height: 14.8cm;
+            background: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .invoice-inner {
+            padding: 0.7rem 0.7rem 0.7rem 0.7rem;
+        }
+
+        .invoice-header {
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 1px solid #eef2f8;
+        }
+
+        .logo-area {
+            margin-bottom: 0.5rem;
+        }
+
+        .logo {
+            height: 32px;
+            width: auto;
+        }
+
+        .brand-name {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #1A2C3E;
+            letter-spacing: -0.2px;
+        }
+
+        /* Quotation badge uses a green accent to distinguish from invoice */
+        .title-badge {
+            background: #1a4731;
+            color: white;
+            padding: 0.15rem 0.7rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .info-grid {
+            background: #f8fafd;
+            padding: 0.5rem 0.7rem;
+            border-radius: 8px;
+            margin-bottom: 0.7rem;
+            border: 1px solid #edf2f7;
+        }
+
+        .info-card {
+            margin-bottom: 0.5rem;
+        }
+
+        .info-label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            color: #5b6f82;
+            margin-bottom: 0.1rem;
+        }
+
+        .info-value {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #122231;
+            word-break: break-word;
+        }
+
+        .info-sub {
+            font-size: 0.6rem;
+            color: #3e5a6f;
+            margin-top: 0.05rem;
+        }
+
+        .items-table-wrapper {
+            margin: 0.3rem 0 0.5rem;
+            border-radius: 6px;
+            border: 1px solid #edf2f7;
+            background: white;
+        }
+
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.7rem;
+        }
+
+        .invoice-table th {
+            background: #f1f5f9;
+            color: #1a3c4f;
+            font-weight: 700;
+            padding: 0.3rem 0.5rem;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+
+        .invoice-table td {
+            padding: 0.3rem 0.5rem;
+            border-bottom: 1px solid #eff3f8;
+            color: #1e2f3c;
+            font-weight: 500;
+        }
+
+        .invoice-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .totals-modern {
+            background: #1a4731;
+            border-radius: 8px;
+            padding: 0.5rem 0.7rem;
+            width: 100%;
+            max-width: 200px;
+            margin-left: auto;
+            margin-bottom: 0.5rem;
+        }
+
+        .totals-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.2rem;
+            color: #eef4ff;
+            font-weight: 500;
+            font-size: 0.7rem;
+        }
+
+        .totals-row.final {
+            margin-top: 0.2rem;
+            padding-top: 0.2rem;
+            border-top: 1px dashed rgba(255,255,255,0.2);
+            font-weight: 800;
+            font-size: 0.85rem;
+            color: #a8f0c6;
+        }
+
+        .action-cards {
+            margin: 0.3rem 0 0.3rem;
+        }
+
+        .card {
+            border-radius: 8px;
+            padding: 0.5rem 0.7rem;
+        }
+
+        .payment-card {
+            background: #fefdf8;
+            border: 1px solid #f0e9cf;
+        }
+
+        .terms-card {
+            background: #f4fdf7;
+            border-left: 5px solid #2e9e5f;
+        }
+
+        .card-title {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-weight: 800;
+            color: #1a5c38;
+            margin-bottom: 0.2rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .payment-details p {
+            margin: 0.15rem 0;
+            font-size: 0.6rem;
+            line-height: 1.2;
+            color: #2c3e2f;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 3px;
+        }
+
+        .payment-details strong {
+            font-weight: 700;
+            color: #1f3e48;
+            min-width: 70px;
+            font-size: 0.6rem;
+        }
+
+        .validity-text {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #1a6b40;
+            margin: 0.1rem 0 0;
+        }
+
+        .terms-note {
+            font-size: 0.55rem;
+            color: #2e6e47;
+            margin-top: 0.1rem;
+        }
+
+        .modern-footer {
+            text-align: center;
+            margin-top: 0.5rem;
+            padding-top: 0.3rem;
+            border-top: 1px solid #e9edf2;
+            font-size: 0.55rem;
+            color: #5b6f84;
+            font-weight: 500;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+            .invoice-a5 {
+                max-width: 100%;
+                height: auto;
+                border-radius: 0;
+                box-shadow: none;
+                margin: 0;
+                page-break-after: avoid;
+                break-inside: avoid;
+            }
+            .invoice-inner {
+                padding: 0.4cm 0.5cm 0.5cm 0.5cm;
+            }
+            .totals-modern {
+                background: #1a4731;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .payment-card, .terms-card {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            body, .invoice-a5 {
+                width: 100%;
+            }
+            @page {
+                size: A5;
+                margin: 0.4cm;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .invoice-inner { padding: 1rem; }
+            .totals-modern { max-width: 100%; }
+            .info-grid { flex-direction: column; gap: 0.6rem; }
+            .action-cards { flex-direction: column; }
+            .payment-details strong { min-width: 90px; }
+        }
+
+        .ref-highlight {
+            background: #dff5ea;
+            padding: 1px 5px;
+            border-radius: 30px;
+            font-family: monospace;
+            font-size: 0.6rem;
+        }
+    </style>
+</head>
+<body>
+<div class="invoice-a5">
+    <div class="invoice-inner">
+
+        <!-- HEADER -->
+        <div class="invoice-header">
+            <div class="logo-area" style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 0.2rem;">
+                <img src="{{ logo_path }}" class="logo" alt="Company Logo" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2Fsvg%22%20viewBox%3D%220%200%2080%2080%22%3E%3Ccircle%20cx%3D%2240%22%20cy%3D%2240%22%20r%3D%2236%22%20fill%3D%22%231A2C3E%22%2F%3E%3Ctext%20x%3D%2240%22%20y%3D%2255%22%20font-size%3D%2232%22%20text-anchor%3D%22middle%22%20fill%3D%22%23ffffff%22%3E%26%23x24%3B%3C%2Ftext%3E%3C%2Fsvg%3E';">
+                <span class="brand-name" style="font-size: 1.1rem; font-weight: 700; color: #1A2C3E; letter-spacing: 0.5px; margin-top: 0.2rem; text-align: center;">ECHELON DIGITAL SOLUTIONS</span>
+            </div>
+            <div class="title-badge" style="display: inline-block; margin: 0.3rem auto 0 auto; text-align: center;">{{ quotation_title }}</div>
+        </div>
+
+        <!-- CLIENT & DATE INFO -->
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="info-label">QUOTED TO</div>
+                <div class="info-value">{{ client }}</div>
+                <div class="info-sub">Ref: #{{ quotation_number }}</div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">QUOTE DATE</div>
+                <div class="info-value">{{ quote_date }}</div>
+                <div class="info-sub">Issued</div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">VALID UNTIL</div>
+                <div class="info-value">{{ valid_until }}</div>
+                <div class="info-sub">Offer expires</div>
+            </div>
+        </div>
+
+        <!-- ITEMS TABLE -->
+        <div class="items-table-wrapper">
+            <table class="invoice-table">
+                <thead>
+                    <tr>
+                        <th>Item Description</th>
+                        <th style="text-align: right;">Price (USD)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for row_type, item, price in items %}
+                    {% if row_type == 'section' %}
+                    <tr style="background: #eaf4ef;">
+                        <td colspan="2" style="font-weight: 800; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.8px; color: #1a4731; padding: 0.25rem 0.5rem;">{{ item }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td style="font-weight: 500;">{{ item }}</td>
+                        <td style="text-align: right; font-weight: 600;">USD {{ '%.2f'|format(price) }}</td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- TOTALS -->
+        <div class="totals-modern">
+            <div class="totals-row final">
+                <span>Quoted Total</span>
+                <span>USD {{ '%.2f'|format(total) }}</span>
+            </div>
+        </div>
+
+        <!-- PAYMENT INFO + TERMS CARDS -->
+        <div class="action-cards">
+            <div class="card payment-card">
+                <div class="card-title" style="color: #8b6f3c;">
+                    <span>💳 PAYMENT INFO</span>
+                </div>
+                <div class="payment-details">
+                    <p><strong>Payment Methods:</strong> Cash / Ecocash / Bank</p>
+                    <p><strong>Account Name:</strong> Takudzwa Zvakasikwa</p>
+                    <p><strong>Ecocash Number:</strong> 0774 822 568</p>
+                    <p><strong>Bank:</strong> CBZ Bank Limited</p>
+                    <p><strong>Account Number:</strong> 02126976120029</p>
+                    <p><strong>Reference:</strong> <span class="ref-highlight">{{ quotation_number }}</span></p>
+                    <p style="margin-top: 0.3rem;"><span style="opacity:0.7;">📌</span> Use quotation number as reference</p>
+                </div>
+            </div>
+            <div class="card terms-card">
+                <div class="card-title">
+                    <span>📋 TERMS &amp; CONDITIONS</span>
+                </div>
+                <div class="validity-text">Valid until <strong>{{ valid_until }}</strong></div>
+                <div class="terms-note">✅ This quotation is valid for 30 days from the issue date.</div>
+                <div class="terms-note">⚠️ A 50% down payment is required before project commencement.</div>
+                <div class="terms-note">⚠️ Remaining balance due upon project completion.</div>
+                <div class="terms-note">⚠️ Prices are subject to change after the validity period.</div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="modern-footer">
+            ✦ Thank you for considering Echelon Digital Solutions ✦<br>
+            <span style="font-size: 0.6rem;">This is a system-generated quotation | valid without signature</span>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

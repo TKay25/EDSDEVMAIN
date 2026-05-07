@@ -117,6 +117,56 @@ def invoice():
         return send_file(BytesIO(pdf), as_attachment=True, download_name='invoice.pdf', mimetype='application/pdf')
     return render_template('invoice.html')
 
+@app.route('/quotation', methods=['GET', 'POST'])
+@login_required
+def quotation():
+    if request.method == 'POST':
+        from jinja2 import Environment, FileSystemLoader
+        from weasyprint import HTML
+        from datetime import datetime
+        import random
+
+        client = request.form['client']
+        quotation_title = request.form.get('quotation_title', 'PROJECT QUOTATION').strip().upper()
+        items_raw = request.form.getlist('item')
+        prices_raw = request.form.getlist('price')
+        row_types = request.form.getlist('row_type')
+
+        quote_date_raw = request.form.get('quote_date')
+        valid_until_raw = request.form.get('valid_until')
+        quote_date = datetime.strptime(quote_date_raw, '%Y-%m-%d').strftime('%d %B %Y') if quote_date_raw else datetime.now().strftime('%d %B %Y')
+        valid_until = datetime.strptime(valid_until_raw, '%Y-%m-%d').strftime('%d %B %Y') if valid_until_raw else datetime.now().strftime('%d %B %Y')
+        quotation_number = f"QUO{datetime.now().strftime('%Y%m%d')}{random.randint(100,999)}"
+
+        quotation_items = []
+        total = 0.0
+        for rtype, item, price in zip(row_types, items_raw, prices_raw):
+            if rtype == 'section':
+                quotation_items.append(('section', item, 0.0))
+            else:
+                p = float(price) if price else 0.0
+                total += p
+                quotation_items.append(('item', item, p))
+
+        logo_path = os.path.join('static', 'images', 'eds logo blue.png')
+
+        env = Environment(loader=FileSystemLoader(os.path.join(app.root_path, 'templates')))
+        template = env.get_template('quotation_pdf_template.html')
+        html_out = template.render(
+            client=client,
+            quotation_title=quotation_title,
+            items=quotation_items,
+            total=total,
+            logo_path=logo_path,
+            quote_date=quote_date,
+            valid_until=valid_until,
+            quotation_number=quotation_number
+        )
+
+        pdf = HTML(string=html_out, base_url=app.root_path).write_pdf()
+        return send_file(BytesIO(pdf), as_attachment=True, download_name='quotation.pdf', mimetype='application/pdf')
+    return render_template('quotation.html')
+
 @app.route('/quotation/excel', methods=['POST'])
 @login_required
 def quotation_excel():
